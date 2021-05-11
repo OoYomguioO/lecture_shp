@@ -18,6 +18,8 @@ from osgeo import gdal, ogr
 parser = argparse.ArgumentParser(description='To create summarize from image , shapefile')
 parser.add_argument('-inImg','--inputImage',required=True,help='Input image path (.tif)')
 parser.add_argument('-inSHP','--inputSHP',required=True, help='input shapefile path (.shp)')
+parser.add_argument('-NAME','--inputNAME',required=True, help='column name of class ("XXX")')
+parser.add_argument('-CODE','--inputCODE',required=True, help='column code ("XXX")')
 parser.add_argument('-out', '--outputFile',type=str,help='path where would you like create .csv')
 parser.add_argument('-Nomenclature', '--outNom',type=str, nargs='?', help ='name off each class')
 
@@ -27,6 +29,8 @@ image_data_path = params['inputImage']
 vector_data_path = params['inputSHP']
 csvfile_path = params['outputFile']
 Nomenclature_path = params['outNom']
+NAME=params['inputNAME']
+CODE=params['inputCODE']
 
 startTime = time.time()
 
@@ -34,20 +38,11 @@ startTime = time.time()
 
 print ('----- Processing -----')
 
-
 #============== LECTURE DU SHP ==================================
 data=gpd.GeoDataFrame.from_file(vector_data_path) #lecture du shape file
 
 
 # ============ ETABLISSEMENT DE LECTURE DE CSV SANS INFO ========
-
-if 'OBJECTID' in data:
-	labels=data['OBJECTID']
-else:
-	labels=data['id']
-	
-
-taille_initiale=labels.shape[0]
 
 poly_area=[]
 for index, row in data.iterrows():
@@ -58,13 +53,13 @@ surface_par_poly=np.array(poly_area[:])
 
 
 
-if 'LIBEL_V3' in data:
+if NAME in data:
 	Nom_de_classe=data['LIBEL_V3']
-else:
-	Nom_de_classe=labels
+
 	
+taille_initiale=Nom_de_classe.shape[0]	
 		
-if 'CODE_V3' in data:
+if CODE in data:
 	code_v3=data['CODE_V3']
 else:
 	code_v3=[]
@@ -95,9 +90,9 @@ for i in unique_name:
 #============== ECRITURE DU CSV ==================================
 
 if len(code_v3)==0:
-	entete={'Label':labels[reference],'Nom de classe':unique_name,'nbr polygone':nbr_polygone,'surface (m2)':surface}
+	entete={'Nom de classe':unique_name,'nbr polygone':nbr_polygone,'surface (m2)':surface}
 else:
-	entete={'Label':labels[reference],'Nom de classe':unique_name,'nbr polygone':nbr_polygone,'CODE_V3':code_v3[reference],'surface (m2)':surface} #forme du tableau
+	entete={'Nom de classe':unique_name,'nbr polygone':nbr_polygone,'CODE_V3':code_v3[reference],'surface (m2)':surface} #forme du tableau
 out_file=pd.DataFrame(entete)
 out_file.to_csv(csvfile_path)
 
