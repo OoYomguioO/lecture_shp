@@ -54,13 +54,13 @@ surface_par_poly=np.array(poly_area[:])
 
 
 if NAME in data:
-	Nom_de_classe=data['LIBEL_V3']
+	Nom_de_classe=data[NAME]
 
 	
 taille_initiale=Nom_de_classe.shape[0]	
 		
 if CODE in data:
-	code_v3=data['CODE_V3']
+	code_v3=data[CODE]
 else:
 	code_v3=[]
 
