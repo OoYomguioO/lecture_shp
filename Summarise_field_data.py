@@ -90,9 +90,9 @@ for i in unique_name:
 #============== ECRITURE DU CSV ==================================
 
 if len(code_v3)==0:
-	entete={'NAME':unique_name,'nbr polygone':nbr_polygone,'surface (m2)':surface}
+	entete={NAME:unique_name,'nbr polygone':nbr_polygone,'surface (m2)':surface}
 else:
-	entete={'NAME':unique_name,'nbr polygone':nbr_polygone,'CODE':code_v3[reference],'surface (m2)':surface} #forme du tableau
+	entete={NAME:unique_name,'nbr polygone':nbr_polygone,CODE:code_v3[reference],'surface (m2)':surface} #forme du tableau
 out_file=pd.DataFrame(entete)
 out_file.to_csv(csvfile_path,index=False)
 
