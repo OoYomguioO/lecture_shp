@@ -90,11 +90,11 @@ for i in unique_name:
 #============== ECRITURE DU CSV ==================================
 
 if len(code_v3)==0:
-	entete={'Nom de classe':unique_name,'nbr polygone':nbr_polygone,'surface (m2)':surface}
+	entete={'NAME':unique_name,'nbr polygone':nbr_polygone,'surface (m2)':surface}
 else:
-	entete={'Nom de classe':unique_name,'nbr polygone':nbr_polygone,'CODE_V3':code_v3[reference],'surface (m2)':surface} #forme du tableau
+	entete={'NAME':unique_name,'nbr polygone':nbr_polygone,'CODE':code_v3[reference],'surface (m2)':surface} #forme du tableau
 out_file=pd.DataFrame(entete)
-out_file.to_csv(csvfile_path)
+out_file.to_csv(csvfile_path,index=False)
 
 print('------------. SUMMARISE DONE .--------------')
 #print(out_file)
@@ -104,7 +104,7 @@ if Nomenclature_path is not None:
 	print('---------. NOMENCLATURE DONE .----------')
 	scalaire=str(range(1,len(unique_name)))
 	with open(Nomenclature_path, 'w') as fic:
-	    fic.write('\n'.join([str(nom) + ": " + str(i) for (nom, i) in zip(unique_name,range(1,len(unique_name)))]))
+	    fic.write('\n'.join([str(nom) + ": " + str(i) for (nom, i) in zip(unique_name,range(1,len(unique_name)+1))]))
 	fic.close()
 else:
 	print('---------. NO NOMENCLATURE .-----------')
