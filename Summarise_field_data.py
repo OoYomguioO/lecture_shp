@@ -102,9 +102,8 @@ print('------------. SUMMARISE DONE .--------------')
 #============== ECRITURE NOMENCLATURE ================
 if Nomenclature_path is not None:
 	print('---------. NOMENCLATURE DONE .----------')
-	scalaire=str(range(1,len(unique_name)))
 	with open(Nomenclature_path, 'w') as fic:
-	    fic.write('\n'.join([str(nom) + ": " + str(i) for (nom, i) in zip(unique_name,range(1,len(unique_name)+1))]))
+	    fic.write('\n'.join([str(nom) + ": " + str(code) for (nom, code) in zip(unique_name,code_v3[reference])]))
 	fic.close()
 else:
 	print('---------. NO NOMENCLATURE .-----------')
